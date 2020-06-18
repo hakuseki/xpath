@@ -56,7 +56,7 @@ import org.apache.camel.language.xpath.XPath;
 public class XMLToTransaction {
     public String myfunc(@Body final String xml,
                          @XPath(value = "//FinInstrmRptgTxRpt/Tx") final String transaction) {
-        System.out.println("xml = " + xml + ", transaction = " + transaction);
+//        System.out.println("transaction = " + transaction);
         return transaction;
     }
 }
