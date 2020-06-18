@@ -62,14 +62,15 @@ public class MyRoute extends EndpointRouteBuilder {
                 .multicast()
                 .to(direct("aBean"), direct("aSplit"));
 
-//        from(direct("aBean"))
+        from(direct("aBean"))
 //                .bean(XMLToTransaction.class)
 //                .log("BEAN: ${body}")
-//                .to(mock("whatever"))
-//                .end();
+.to(mock("whatever"))
+.end();
 
 
         final XPathBuilder xPathBuilder = XPathBuilder.xpath("//*[local-name()='Tx']");
+//        final XPathBuilder xPathBuilder = XPathBuilder.xpath("//FinInstrmRptgTxRpt/*[local-name()='Tx']");
         xPathBuilder.threadSafety(true);
         xPathBuilder.enableSaxon();
         xPathBuilder.setLogNamespaces(true);
