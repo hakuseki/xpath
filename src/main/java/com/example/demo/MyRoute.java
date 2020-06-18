@@ -44,6 +44,7 @@
 package com.example.demo;
 
 import org.apache.camel.builder.endpoint.EndpointRouteBuilder;
+import org.apache.camel.language.xpath.XPathBuilder;
 import org.springframework.stereotype.Component;
 
 //tag::MyRoute[]
@@ -61,14 +62,21 @@ public class MyRoute extends EndpointRouteBuilder {
                 .multicast()
                 .to(direct("aBean"), direct("aSplit"));
 
-        from(direct("aBean"))
-                .bean(XMLToTransaction.class)
-                .log("BEAN: ${body}")
-                .to(mock("whatever"))
-                .end();
+//        from(direct("aBean"))
+//                .bean(XMLToTransaction.class)
+//                .log("BEAN: ${body}")
+//                .to(mock("whatever"))
+//                .end();
+
+
+        final XPathBuilder xPathBuilder = XPathBuilder.xpath("//*[local-name()='Tx']");
+        xPathBuilder.threadSafety(true);
+        xPathBuilder.enableSaxon();
+        xPathBuilder.setLogNamespaces(true);
+
 
         from(direct("aSplit"))
-                .split(xpath("//FinInstrmRptgTxRpt/Tx", String.class))
+                .split(xPathBuilder)
                 .log("SPLIT: ${body}")
                 .to(mock("whatever"))
                 .end();
